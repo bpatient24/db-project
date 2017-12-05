@@ -1,4 +1,4 @@
-public class StockAccount(){
+public class StockAccount{
 	//calls transactions class
 	public void buy(){
 	

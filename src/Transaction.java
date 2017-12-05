@@ -1,4 +1,4 @@
-public class Transactions {
+public class Transaction {
 
 	public void deposit(double amount){
 		//add money to market account balance
