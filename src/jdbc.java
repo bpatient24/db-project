@@ -3,19 +3,52 @@ public class JDBC {
 	public static Connection connection; 
 	public static Statement statement;
 
-	public static void initializeDB(){
-		Class.forName("com.mysql.jdbc.Driver");
-		connection = DriverManager.getConnection("jdbc:mysql://cs174a.engr.ucsb.edu:3306/<database>", "bpatient", "439");
-		statement = connection.createStatement();
+	public JDBC(){
+		initializeDriver();
+		initializeConnection();
+		initializeStatement();
 	}
 
-	public static void endSession(){
+	public void initializeDriver(){
+		try{
+	      Class.forName("com.mysql.jdbc.Driver");
+	    } catch (ClassNotFoundException e){
+	      e.printStackTrace();
+	    }
+		
+	}
+		
+	public void initializeConnection(){
+		try{
+			connection = DriverManager.getConnection("jdbc:mysql://cs174a.engr.ucsb.edu:3306/<database>", "bpatient", "439");
+		} catch(SQLException e){
+			e.printStackTrace();
+		}
+	}
+
+	public void initializeStatement(){
+		try{
+			statement = connection.createStatement();
+		} catch(SQLException e){
+			e.printStackTrace();
+		}
+	}
+
+	public void endSession(){
 		if (statement != null) {
-		    statement.close();
+			try{
+				statement.close();
+			} catch(SQLException e){
+				e.printStackTrace();
+			}  
 		}
 
 		if (connection != null) {
-		    connection.close();
+			try{
+				connection.close();
+			} catch(SQLException e){
+				e.printStackTrace();
+			}
 		}
 	}
 }
