@@ -44,15 +44,16 @@ public class DataParser{
 				sql += ") ";
 			}
 		}
-		sql += "values (";
+		sql += "values ('";
 		for(int i=0; i < numArgs; i++){
+			//check if int or string here
 			if(i != numArgs-1){
 				sql += data[i];
-				sql += ",";
+				sql += "','";
 			} 
 			else if(i == numArgs-1){
 				sql += data[i];
-				sql += ")";
+				sql += "')";
 			}
 		}
 		sql += ";";
