@@ -9,6 +9,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.nio.file.Path;
+import java.sql.*;
 
 public class DataParser{
 	int numArgs;
@@ -16,6 +17,8 @@ public class DataParser{
 	String tableName;
 	String[] parameters;
 	ArrayList<String> queries = new ArrayList<String>();
+	ArrayList<String> createDB = new ArrayList<String>();
+	ArrayList<String> deleteDB = new ArrayList<String>();
 
 	public DataParser(){
 		numArgs=-1;
@@ -79,8 +82,56 @@ public class DataParser{
             		}
             	}
 
-        	} catch (IOException e) {
-          		e.printStackTrace();
-        	} 
+        	} catch(IOException e){e.printStackTrace();} 
+	}
+
+	public void createDB(){
+		//System.out.println("createDB");
+		try (BufferedReader br = new BufferedReader(new FileReader("createTables.sql"))){
+            String currentLine;
+            while ((currentLine = br.readLine()) != null) {
+            	createDB.add(currentLine);
+            }
+            br.close();
+        }catch(IOException e){e.printStackTrace();} 
+
+        try (BufferedReader br = new BufferedReader(new FileReader("populateTables.sql"))){
+            String currentLine;
+            while ((currentLine = br.readLine()) != null) {
+            	createDB.add(currentLine);
+            }
+            br.close();
+        }catch(IOException e){e.printStackTrace();} 
+        for(int i=0; i < createDB.size(); i++){
+        	String sql = "";
+        	sql = createDB.get(i);
+        	//System.out.println(sql);
+        	try{
+        		JDBC.statement.executeUpdate(sql);
+        	}catch(SQLException se){se.printStackTrace();}
+        }
+	}
+
+	public void deleteDB(){
+		try (BufferedReader br = new BufferedReader(new FileReader("deleteTables.sql"))){
+            String currentLine;
+            while ((currentLine = br.readLine()) != null) {
+            	deleteDB.add(currentLine);
+            }
+            br.close();
+        }catch(IOException e){e.printStackTrace();} 
+
+        for(int i=0; i < deleteDB.size(); i++){
+        	String sql = "";
+        	sql = deleteDB.get(i);
+        	try{
+        		JDBC.statement.executeUpdate(sql);
+        	}catch(SQLException se){se.printStackTrace();}	
+        }
+	}
+
+	public void resetDB(){
+		deleteDB();
+		createDB();
 	}
 }

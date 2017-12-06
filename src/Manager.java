@@ -5,7 +5,8 @@ public class Manager {
 	}
 
 	public static void genereateStatement(){
-
+		String sql ="stub";
+		//JDBC.statement.executeUpdate(sql);
 	}
 
 	public static void listActiveCustomers(){
