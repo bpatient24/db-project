@@ -1,9 +1,10 @@
 import java.util.*;
 import java.lang.*;
+import java.sql.*;
 
 public class UI{
 	static Scanner scanner;
- 	static final ArrayList<String> validTraderInputs = new ArrayList<>(Arrays.asList("login", "register", "back", "help"));
+ 	static final ArrayList<String> validLoginInputs = new ArrayList<>(Arrays.asList("login", "register", "back", "help"));
  	static final ArrayList<String> validUsers = new ArrayList<>(Arrays.asList("trader", "operator", "manager", "quit", "help"));
     static final ArrayList<String> validManagerInputs = new ArrayList<>(Arrays.asList("add interest", "generate monthly statement", "list active customers", "generate DTER", "customer report", "delete transaction", "back", "help"));
     static final ArrayList<String> validOperatorInputs = new ArrayList<>(Arrays.asList("open market", "close market", "set stock price", "set date", "back", "help"));
@@ -12,11 +13,11 @@ public class UI{
  		 scanner = new Scanner(System.in);
  	}
 
-    public void help(ArrayList<String> inputSet){
+    public static void help(ArrayList<String> inputSet){
         System.out.println("Input options: " + Arrays.toString(inputSet.toArray()));
     }
 
- 	public void begin(){
+ 	public static void begin(){
  		System.out.println("Welcome to Stars R Us");
  		System.out.println("Are you a trader, manager or operator?");
     	String input ="";
@@ -25,7 +26,7 @@ public class UI{
     		if(validUsers.contains(input)){
     			switch(input){
     				case "trader":
-    				traderInterface();
+    				accountCheck();
     				break;
 
     				case "operator":
@@ -33,8 +34,14 @@ public class UI{
     				break;
 
     				case "manager":
-    				managerInterface();
-    				break;
+    				if(Manager.login()){
+    					managerInterface(Manager.name);
+    				}
+    				else{
+    					System.out.println("Login failed");
+    					begin();
+    				}
+    				break; 
 
     				case "quit":
                     System.exit(0);
@@ -51,20 +58,20 @@ public class UI{
     	}
  	}
 
- 	public void traderInterface(){
- 		System.out.println("Welcome to Stars R Us Trader Interface");
+ 	public static void accountCheck(){
+ 		System.out.println("Welcome to Stars R Us");
  		System.out.println("Would you like to login or create an account? (Type login or register)");
  		String input = "";
- 		while(true){
+ 		while(!input.equals("back")){
     		input = getInput();
-    		if(validTraderInputs.contains(input)){
+    		if(validLoginInputs.contains(input)){
     			switch(input){
     				case "login":
-    				//login user
+    				Trader.login();
     				break;
 
     				case "register":
-    				//register user
+    				Trader.openAccount();
     				break;
 
     				case "back":
@@ -72,7 +79,7 @@ public class UI{
     				break;
 
     				case "help":
-    				help(validTraderInputs);
+    				help(validLoginInputs);
                     break;
     			}
     		}
@@ -82,11 +89,12 @@ public class UI{
     	}
  	}
 
-    public void managerInterface(){
+    public static void managerInterface(String name){
+        System.out.println("Hello " + name +".");
         System.out.println("Welcome to Stars R Us Manager Interface");
         System.out.println("What would you like to do? Type 'help' for options");
         String input = "";
-        while(true){
+        while(!input.equals("back")){
             input = getInput();
             if(validManagerInputs.contains(input)){
                 switch(input){
@@ -95,11 +103,11 @@ public class UI{
                     break;
 
                     case "generate monthly statement":
-                    //do this
+                    Manager.generateStatement();
                     break;
 
                     case "list active customers":
-                    //do this
+                    Manager.listActiveCustomers();
                     break;
 
                     case "generate DTER":
@@ -107,7 +115,7 @@ public class UI{
                     break;
 
                     case "customer report":
-                    //do this
+                    Manager.showCustomerReport();
                     break;
 
                     case "delete transaction":
@@ -129,11 +137,11 @@ public class UI{
         }
     }
 
-    public void operatorInterface(){
+    public static void operatorInterface(){
         System.out.println("Welcome to Stars R Us Operator Interface");
         System.out.println("What would you like to do? Type 'help' for options");
         String input = "";
-        while(true){
+        while(!input.equals("back")){
             input = getInput();
             if(validOperatorInputs.contains(input)){
                 switch(input){
@@ -168,7 +176,7 @@ public class UI{
         }
     }
 
- 	private static String getInput() {
+ 	public static String getInput() {
         System.out.print(">>>");
 		return(scanner.nextLine());
   	}
