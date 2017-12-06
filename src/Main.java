@@ -22,13 +22,13 @@ public class Main {
     			parser.deleteDB();
     		}
     		else{
-    			/*parser = new DataParser(args[0]);
+    			parser = new DataParser(args[0]);
 	    		//System.out.println(parser.numArgs);
 	    		for(int i=0; i < parser.queries.size(); i++){
 	    			String tmp = parser.queries.get(i);
 	    			System.out.println(tmp);
-	    		}*/
-	    		System.out.println(args[0]);
+	    		}
+	    		//System.out.println(args[0]);
     		}		
     	}
     	else{
