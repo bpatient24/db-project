@@ -7,7 +7,7 @@ public class Trader {
 	public static int taxID;
 	public static String username;
 	public static String password;
-	static final ArrayList<String> validTraderInputs = new ArrayList<>(Arrays.asList("deposit", "withdraw", "buy", "sell", "show balance", "transactions", "check stock", "movie info", "logout", "help"));
+	static final ArrayList<String> validTraderInputs = new ArrayList<>(Arrays.asList("deposit", "withdraw", "buy", "sell", "show balance", "transactions", "check stock", "movie info", "reviews", "top movies", "logout", "help"));
 
 public static void openAccount() {
 		//register new account
@@ -107,11 +107,11 @@ public static void openAccount() {
     		if(validTraderInputs.contains(input)){
     			switch(input){
     				case "deposit":
-    				
+    					Transaction.deposit(taxID);
     				break;
 
     				case "withdraw":
-    				
+    					Transaction.withdraw(taxID);
     				break;
 
     				case "buy":
@@ -249,5 +249,7 @@ public static void openAccount() {
 		//String sql = "";
 		//JDBC.connection.statement.executeQuery(sql);
 	}
+
+
 
 }

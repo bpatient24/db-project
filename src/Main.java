@@ -36,9 +36,11 @@ public class Main {
     	else{
 	    	ui = new UI();
 	    	Date.getDate();
-	    	ui.begin();
+            UI.begin();
 
 	    	db.endSession();
+            System.out.println("closed connection");
+            System.exit(0);
     	}
     }
 }

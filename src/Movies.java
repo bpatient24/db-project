@@ -70,20 +70,14 @@ public class Movies{
 		try{
 			ResultSet rs = statement.executeQuery(sql);
 			//System.out.println("ID\tTitle\tRating\tYear\n");
-			if(rs.next()){
-				while(rs.next()){
-					int id = rs.getInt("id");
-					String title = rs.getString("title");
-					double rating = rs.getDouble("rating");
-					int year = rs.getInt("production_year");
-					System.out.println("ID:" + id + "\nTitle:" + title + "\nRating:" + rating + "\nYear:" + year);
-				}
-			}
-			else{
-				System.out.println("Movies sucked during that time period.");
-			}
-					
-		}catch(SQLException e){e.printStackTrace();}
+			while(rs.next()){
+				int id = rs.getInt("id");
+				String title = rs.getString("title");
+				double rating = rs.getDouble("rating");
+				int year = rs.getInt("production_year");
+				System.out.println("ID:" + id + "\nTitle:" + title + "\nRating:" + rating + "\nYear:" + year);
+			}			
+		}catch(SQLException e){ System.out.println("Movies Sucked during that time period.");}
 	}
 
 	public static void showReviews() {
