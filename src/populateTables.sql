@@ -50,3 +50,4 @@ insert into Actor(stockID,name,birthday) values ('STC','Tom Cruise','3 July 196'
 insert into Contract(title,totalvalue,year,role) values ('L.A. Confidential',5000000,1997,'Actor');
 insert into Contract(title,totalvalue,year,role) values ('A Perfect Murder',10000000,1998,'Actor');
 insert into Contract(title,totalvalue,year,role) values ('Jerry Maguire',5000000,1996,'Actor');
+insert into Date(date) values ('3/18/2013');

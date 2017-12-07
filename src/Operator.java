@@ -1,8 +1,9 @@
 import java.util.*;
 import java.lang.*;
+import java.sql.*;
 public class Operator {
 	public static void openMarket(){
-		System.out.println("test");
+		Date.nextDay();
 	}
 
 	public static void closeMarket(){
@@ -14,6 +15,10 @@ public class Operator {
 	}
 
 	public static void setDate(){
-		
+		String newDate;
+		System.out.println("What is the date today? (MM/DD/YYYY)");
+		newDate = UI.getInput();
+		Date.setDate(newDate);
+		System.out.println("Date set to:" + Date.date);
 	}
 }

@@ -10,3 +10,5 @@ ALTER TABLE `bpatientDB`.`Transactions` CHANGE COLUMN `tid` `tid` INT(11) NOT NU
 CREATE TABLE Contract(cid integer, title char(20), totalvalue float, year integer, role char(10), stockID char(3), primary key(cid), foreign key(stockID) references Actor(stockID));
 ALTER TABLE `bpatientDB`.`Contract` CHANGE COLUMN `cid` `cid` INT(11) NOT NULL AUTO_INCREMENT , ADD UNIQUE INDEX `cid_UNIQUE` (`cid` ASC);
 CREATE TABLE Manager(taxID integer,name char(20), username char(15), password char(15), address char(30), state char(2), phone char(10), email char(20), ssn char(11), PRIMARY KEY(taxID));
+CREATE TABLE Date(date char(10), primary key(date));
+SET SQL_SAFE_UPDATES = 0;

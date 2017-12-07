@@ -33,6 +33,7 @@ public class Main {
     	}
     	else{
 	    	ui = new UI();
+	    	Date.getDate();
 	    	ui.begin();
 
 	    	db.endSession();

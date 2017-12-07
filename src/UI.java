@@ -19,6 +19,7 @@ public class UI{
 
  	public static void begin(){
  		System.out.println("Welcome to Stars R Us");
+        Date.printDate();
  		System.out.println("Are you a trader, manager or operator?");
     	String input ="";
     	while(!input.equals("quit")){
@@ -92,9 +93,9 @@ public class UI{
     public static void managerInterface(String name){
         System.out.println("Hello " + name +".");
         System.out.println("Welcome to Stars R Us Manager Interface");
-        System.out.println("What would you like to do? Type 'help' for options");
         String input = "";
         while(!input.equals("back")){
+            System.out.println("\n What would you like to do? Type 'help' for options");
             input = getInput();
             if(validManagerInputs.contains(input)){
                 switch(input){
@@ -139,9 +140,9 @@ public class UI{
 
     public static void operatorInterface(){
         System.out.println("Welcome to Stars R Us Operator Interface");
-        System.out.println("What would you like to do? Type 'help' for options");
         String input = "";
         while(!input.equals("back")){
+            System.out.println("\n What would you like to do? Type 'help' for options");
             input = getInput();
             if(validOperatorInputs.contains(input)){
                 switch(input){
@@ -158,7 +159,7 @@ public class UI{
                     break;
 
                     case "set date":
-                    //do this
+                    Operator.setDate();
                     break;
 
                     case "back":

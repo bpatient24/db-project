@@ -137,8 +137,6 @@ public class Manager {
 	    		System.out.println(col1 + "\t" + col2 + "\t" + col3 + "\t" + col4);
 			}
 		} catch (SQLException e){e.printStackTrace(); }
-		System.out.println("What else would you like to do? Type 'help' for options");
-
 	}
 
 	public static void listActiveCustomers() {
@@ -155,7 +153,6 @@ public class Manager {
 	    		System.out.println(col1 + "\t" + col2);
 			}
 		} catch (SQLException e){e.printStackTrace();}
-		System.out.println("What else would you like to do? Type 'help' for options");
 	}
 
 	public static void genereateDTER(){
@@ -214,7 +211,6 @@ public class Manager {
 			}
 
 		} catch (SQLException e){e.printStackTrace(); System.out.println("Entered an invalid TaxID"); }
-		System.out.println("What else would you like to do? Type 'help' for options");
 	}
 
 	public static void deleteTransactions(){

@@ -37,7 +37,7 @@ public class Trader {
  		System.out.println("Welcome back to the Stars R Us Trader Interface");
  		String input = "";
  		while(!input.equals("logout")){
- 			System.out.println("What would you like to do? Type 'help' for options");
+ 			System.out.println("\n What would you like to do? Type 'help' for options");
     		input = UI.getInput();
     		if(validTraderInputs.contains(input)){
     			switch(input){
