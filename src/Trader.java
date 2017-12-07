@@ -9,9 +9,74 @@ public class Trader {
 	public static String password;
 	static final ArrayList<String> validTraderInputs = new ArrayList<>(Arrays.asList("deposit", "withdraw", "buy", "sell", "show balance", "transactions", "check stock", "movie info", "logout", "help"));
 
-
-	public static void openAccount(){
+public static void openAccount() {
 		//register new account
+		System.out.println("===================================================================");
+		System.out.println("Welcome! Enter the following information below to join Stars-R-Us!");
+		System.out.println("Enter Your Name: ");
+		name = UI.getInput();
+		System.out.println("Enter Your Address: ");
+		String pAddress = UI.getInput();
+		System.out.println("Enter Your State (2 letters): ");
+		String state = UI.getInput();
+		System.out.println("Enter Your Phone Number: ");
+		String phoneNum = UI.getInput();
+		System.out.println("Enter Your Email Address: ");
+		String email = UI.getInput();
+		System.out.println("Enter Your TaxID: ");
+		enterTaxID();
+		System.out.println("Enter Your User Name: ");
+		username = UI.getInput();
+		while (checkUser()) {
+			System.out.println("Sorry, this username is already taken! Try another one.");
+			username = UI.getInput();
+		}
+		System.out.println("Enter Your Password: ");
+		password = UI.getInput();
+		System.out.println("Enter Your Social Security Number: ");
+		String socialSec = UI.getInput();
+		System.out.println("How much money would you like to initially deposit? (Minimum must be $1,000)");
+		double deposit = Double.parseDouble(UI.getInput());
+		while (deposit < 1000.0) {
+			System.out.println("Insufficient Funds. Enter more money.");
+			deposit = Double.parseDouble(UI.getInput());
+		}
+
+		String sql = "insert into Customer(taxID,name,username,password,address,state,phone,email,ssn) values (" +taxID+ ", '" +name+ "', '" +username+ "', '" +password+ "', '" + pAddress + "', '" + state + "', '" +phoneNum+ "', '" + email + "', '"+ socialSec + "');";
+		String sql2 = "insert into marketAccount(taxID,balance) values ("+ taxID + ", "+deposit+");";
+		try {
+	      	JDBC.statement.executeUpdate(sql);
+	      	JDBC.statement.executeUpdate(sql2);
+	      	System.out.println("Success! Account Created with Initial Deposit.");
+	      	traderInterface();
+		} catch(SQLException e){e.printStackTrace();}
+
+	}
+
+	public static void enterTaxID() {
+		taxID = Integer.parseInt((UI.getInput()));
+		if (checkTaxID()) {
+			
+		} else {
+			System.out.println("Invalid TaxID. Enter one that isn't taken.");
+			enterTaxID();
+		}
+	}
+
+	 public static boolean checkTaxID(){
+		String sql = "SELECT C.taxID FROM Customer C;";
+		boolean valid = true;
+		try{
+	      	ResultSet rs = JDBC.statement.executeQuery(sql);
+	      	while(rs.next()){
+	      		int col1 = rs.getInt("taxID"); 
+		      	//System.out.println(username);
+		      	if (col1 == taxID){
+		      		valid = false; 	
+		      	}
+	      	}
+		}catch(SQLException e){e.printStackTrace();}
+	    return valid;
 	}
 
 	public static void login(){
@@ -37,7 +102,7 @@ public class Trader {
  		System.out.println("Welcome back to the Stars R Us Trader Interface");
  		String input = "";
  		while(!input.equals("logout")){
- 			System.out.println("\n What would you like to do? Type 'help' for options");
+ 			System.out.println("\nWhat would you like to do? Type 'help' for options");
     		input = UI.getInput();
     		if(validTraderInputs.contains(input)){
     			switch(input){
@@ -70,7 +135,15 @@ public class Trader {
     				break;
 
     				case "movie info":
-    				
+    				Movies.listMovieInfo();
+    				break;
+
+    				case "top movies":
+    				Movies.showTopMovies();
+    				break;
+
+    				case "reviews":
+    				Movies.showReviews();
     				break;
 
     				case "logout":
@@ -177,18 +250,4 @@ public class Trader {
 		//JDBC.connection.statement.executeQuery(sql);
 	}
 
-	public static void listMovieInfo() {
-		//String sql = "";
-		//JDBC.connection.statement.executeQuery(sql);
-	}
-
-	public static void showTopMovies() {
-		//String sql = "";
-		//JDBC.connection.statement.executeQuery(sql);
-	}
-
-	public static void showReviews(String movieName) {
-		//String sql = "";
-		//JDBC.connection.statement.executeQuery(sql);
-	}
 }

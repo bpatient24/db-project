@@ -3,8 +3,10 @@ import java.util.*;
 public class Main {
 	static UI ui; 
 	static JDBC db;
+	static Movies mdb;
     public static void main(String[] args) {
     	db = new JDBC();
+    	mdb = new Movies();
     	//System.out.println(args.length);
     	if(args.length == 1){
     		DataParser parser;

@@ -1,5 +1,8 @@
 import java.sql.*;
 import java.util.*;
+import java.lang.*;
+
+
 public class Manager {
 	public static String name;
 	public static String username;
@@ -91,9 +94,10 @@ public class Manager {
 	}
 
 	public static void generateStatement() {
-		Scanner scan = new Scanner(System.in);
-		System.out.println("==================================================");
-		System.out.println("Select a Customer TaxID to generate a Monthly Statement for: ");
+		//Scanner scan = new Scanner(System.in);
+		System.out.println("==============================================================");
+		System.out.println("Select a Customer TaxID to generate a Monthly Statement for their Accounts: ");
+		//List<Integer> validTaxIDs = new ArrayList<>();
 		String input = "";
 		String sql = "SELECT * FROM Customer;";
 		try {
@@ -102,31 +106,34 @@ public class Manager {
 			ResultSet resultSet = JDBC.statement.executeQuery(sql);
 			while (resultSet.next()) {
 				int col1 = resultSet.getInt("taxID");
+				//validTaxIDs.add(col1);
 	   			String col2 = resultSet.getString("name");
 	    		System.out.println(col1 + "\t" + col2);
 			}
 			System.out.println("===================");
-		} catch (SQLException e){e.printStackTrace();}
+		} catch (SQLException e){e.printStackTrace(); }
 
-		System.out.print(">>>>>> ");
-		input = scan.nextLine();
-	
+		input = UI.getInput();			// input = Customer (taxID) to generate Monthly Statement for
+										// TODO: Check if it's a valid input
+		System.out.println("");
+		System.out.print("Generating a monthly report for, ");
 
 		String sql2 = String.format("SELECT * FROM Customer WHERE taxID='%s';", input);		
 		try { 
-			
 			ResultSet resultSet = JDBC.statement.executeQuery(sql2);
 			while (resultSet.next()) {
 				String col1 = resultSet.getString("name");
 	   			String col2 = resultSet.getString("email");
 	    		System.out.println("Name: " + col1 + " \t Email: " + col2);
 			}
-		} catch (SQLException e){e.printStackTrace(); }
+		} catch (SQLException e){e.printStackTrace(); System.out.println("Entered an invalid TaxID"); }
+		System.out.println("=====================================");
 
+		// TODO: Generate A List of Transactions for Every Account the Customer Owns
 		String sql3 = String.format("SELECT * FROM stockAccount WHERE taxID='%s';", input);
 		try {
 			System.out.println("======================");
-			System.out.println("StockAccID \t numShares \t stockID \t purchase$ ");
+			System.out.println("saID \t #shares \t stockID \t boughtAt");
 			ResultSet resultSet = JDBC.statement.executeQuery(sql3);
 		
 			while (resultSet.next()) {
@@ -137,6 +144,7 @@ public class Manager {
 	    		System.out.println(col1 + "\t" + col2 + "\t" + col3 + "\t" + col4);
 			}
 		} catch (SQLException e){e.printStackTrace(); }
+
 	}
 
 	public static void listActiveCustomers() {
@@ -150,7 +158,7 @@ public class Manager {
 			while (resultSet.next()) {
 				int col1 = resultSet.getInt("taxID");
 	   			String col2 = resultSet.getString("name");
-	    		System.out.println(col1 + "\t" + col2);
+	    		System.out.println("Tax ID: " + col1 + "\t Name: " + col2);
 			}
 		} catch (SQLException e){e.printStackTrace();}
 	}
@@ -160,7 +168,6 @@ public class Manager {
 	}
 	
 	public static void showCustomerReport() {
-		Scanner scan = new Scanner(System.in);
 		System.out.println("==================================================");
 		System.out.println("Select a Customer TaxID to generate a Customer Report for: ");
 		String input = "";
@@ -177,10 +184,9 @@ public class Manager {
 			System.out.println("===================");
 		} catch (SQLException e){e.printStackTrace();}
 
-		System.out.print(">>>>>> ");
-		input = scan.nextLine();
+		input = UI.getInput();
 
-		System.out.println("Generating a list of the Customer's amounts... ");
+		System.out.println("Generating a list of the Customer's accounts... ");
 		System.out.println("====================================================");
 		System.out.println("Stock Account Info for TaxID: " + input);
 
@@ -211,6 +217,7 @@ public class Manager {
 			}
 
 		} catch (SQLException e){e.printStackTrace(); System.out.println("Entered an invalid TaxID"); }
+
 	}
 
 	public static void deleteTransactions(){
