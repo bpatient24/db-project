@@ -45,7 +45,9 @@ public class UI{
     				break; 
 
     				case "quit":
-                    System.exit(0);
+    				//System.exit(0);
+    				System.out.println("*quit*");
+    				input = "quit";
     				break;
 
     				case "help":
