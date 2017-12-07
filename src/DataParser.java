@@ -87,13 +87,13 @@ public class DataParser{
 
 	public void createDB(){
 		//System.out.println("createDB");
-		try (BufferedReader br = new BufferedReader(new FileReader("createTables.sql"))){
+		/*try (BufferedReader br = new BufferedReader(new FileReader("createTables.sql"))){
             String currentLine;
             while ((currentLine = br.readLine()) != null) {
             	createDB.add(currentLine);
             }
             br.close();
-        }catch(IOException e){e.printStackTrace();} 
+        }catch(IOException e){e.printStackTrace();} */
 
         try (BufferedReader br = new BufferedReader(new FileReader("populateTables.sql"))){
             String currentLine;

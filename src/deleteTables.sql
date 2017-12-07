@@ -1,8 +1,8 @@
-DROP TABLE Manager;
-DROP TABLE Contract;
-DROP TABLE Transactions;
-DROP TABLE stockAccount;
-DROP TABLE Actor;
-DROP TABLE Stock;
-DROP TABLE marketAccount;
-DROP TABLE Customer;
+delete from Manager;
+delete from Contract;
+delete from Transactions;
+delete from stockAccount;
+delete from Actor;
+delete from Stock;
+delete from marketAccount;
+delete from Customer;
