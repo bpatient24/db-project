@@ -6,7 +6,7 @@ public class UI{
 	static Scanner scanner;
  	static final ArrayList<String> validLoginInputs = new ArrayList<>(Arrays.asList("login", "register", "back", "help"));
  	static final ArrayList<String> validUsers = new ArrayList<>(Arrays.asList("trader", "operator", "manager", "quit", "help"));
-    static final ArrayList<String> validManagerInputs = new ArrayList<>(Arrays.asList("add interest", "generate monthly statement", "list active customers", "generate DTER", "customer report", "delete transactions", "back", "help"));
+    static final ArrayList<String> validManagerInputs = new ArrayList<>(Arrays.asList("add interest", "generate monthly statement", "list active customers", "generate DTER", "customer report", "delete transactions", "logout", "help"));
     static final ArrayList<String> validOperatorInputs = new ArrayList<>(Arrays.asList("open market", "close market", "set stock price", "set date", "back", "help"));
     
  	public UI(){
@@ -127,7 +127,7 @@ public class UI{
                     Manager.deleteTransactions();
                     break;
 
-                    case "back":
+                    case "logout":
                     
                     break;
 

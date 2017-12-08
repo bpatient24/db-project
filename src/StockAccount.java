@@ -89,6 +89,43 @@ public class StockAccount{
 	}
 
 	public static void sell(){
-
+		System.out.println("Enter the stock ID you'd like to sell:");
+		String temp = UI.getInput();
+		double price;
+		int numshares;
+		if(!stockExists(temp)){
+			System.out.println("Invalid stockID!");
+		}
+		else{
+			stockID = temp;
+			accountInfo();
+			if (newAcct || currentNumShares == 0) {
+				System.out.println("Error cannot sell. You don't own any stocks in this account.");
+			} else {
+				price = Stocks.getStockPrice(stockID);
+				System.out.println(stockID + " is currently $" + price);
+				System.out.println("How many would you like to sell? You currently have " + currentNumShares + " shares.");
+				numshares = Integer.parseInt(UI.getInput());
+				if (numshares > currentNumShares) {
+					System.out.println("Error cannot sell more shares than you currently own. Try again later.");
+				} else {
+					double cost = numshares * price;
+					sellHandler(numshares, cost);
+				}
+			}
+		}
 	}
+
+
+	public static void sellHandler(int shares, double totalcost){
+		currentNumShares -= shares;
+		String sql = "update stockAccount set numshares = " + currentNumShares + " where taxID = " + taxID+ " and stockID = '" + stockID + "';";
+		try {
+		    JDBC.statement.executeUpdate(sql);
+		} catch(SQLException e){e.printStackTrace();}
+		MarketAccount.incrementBalance(totalcost);
+		Transaction.sell(totalcost, shares, stockID);
+		System.out.println("Success! You sold " + shares + " shares of " + stockID + " for $" + totalcost);
+	}
+
 }

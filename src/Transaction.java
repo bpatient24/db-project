@@ -60,8 +60,13 @@ public class Transaction {
 		} catch(SQLException e){e.printStackTrace();}
 	}
 	
-	public static void sell(String share, int numShares){
-
+	public static void sell(double amount, int shares, String sid){
+		String type = "sell";
+		String date = Date.date;
+		String sql = "insert into Transactions(taxID,amount,numshares,newbalance,stockID,type,date) values (" +taxID+ ", " +amount+ ", " +shares+ ", " + MarketAccount.currBalance + ", '" + sid + "', '" +type+ "', '" +date+ "');";
+		try {
+	      	JDBC.statement.executeUpdate(sql);
+		} catch(SQLException e){e.printStackTrace();}
 	}
 
 	public static void accrueInterest(String marketAct){
