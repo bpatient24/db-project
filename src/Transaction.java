@@ -3,8 +3,13 @@ import java.util.*;
 import java.lang.*;
 
 public class Transaction {
+	public static int taxID;
 
-	public static void deposit(int taxID, double amount) {
+	public static void getTID(int tid){
+		taxID = tid;
+	}
+
+	public static void deposit(double amount) {
 		String type = "deposit";
 		String date = Date.date;
 		//create transaction table entry for this deposit
@@ -14,7 +19,7 @@ public class Transaction {
 		} catch(SQLException e){e.printStackTrace();}
 	}
 
-	public static void withdraw(int taxID, double amount){
+	public static void withdraw(double amount){
 		String type = "withdrawal";
 		String date = Date.date;
 		//create transaction table for this deposit
@@ -24,7 +29,7 @@ public class Transaction {
 		} catch(SQLException e){e.printStackTrace();}
 	}
 
-	public static void printTransactions(int taxID){
+	public static void printTransactions(){
 		System.out.println("Here is your transaction history:");
 		String sql = "select * from Transactions where taxID = " + taxID + ";";
 		try {
@@ -46,10 +51,13 @@ public class Transaction {
 		} catch(SQLException e){e.printStackTrace();}
 	}
 
-	public static void buy(){
-		// Acquire a specified number of shares of a specified stock at the current price. Each buy transaction costs
-		//$20 (commission). The customer must pay the total price for the shares and the commission with the
-		//money in the market account. (The transaction fails if there is not enough money in the market account.)
+	public static void buy(double amount, int shares, String sid){
+		String type = "buy";
+		String date = Date.date;
+		String sql = "insert into Transactions(taxID,amount,numshares,newbalance,stockID,type,date) values (" +taxID+ ", " +amount+ ", " +shares+ ", " + MarketAccount.currBalance + ", '" + sid + "', '" +type+ "', '" +date+ "');";
+		try {
+	      	JDBC.statement.executeUpdate(sql);
+		} catch(SQLException e){e.printStackTrace();}
 	}
 	
 	public static void sell(String share, int numShares){

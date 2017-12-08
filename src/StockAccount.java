@@ -1,10 +1,94 @@
+import java.sql.*;
+import java.util.*;
+import java.lang.*;
 public class StockAccount{
-	//calls transactions class
-	public void buy(){
-	
+	public static int currentNumShares;
+	public static int taxID;
+	public static double boughtAt;
+	public static String stockID;
+	public static boolean newAcct;
+
+	public static void getTID(int tid){
+		taxID = tid; 
 	}
 
-	public void sell(String share, int numShares){
+
+	public static void accountInfo(){
+		String sql = "select * from stockAccount where taxID = " + taxID+ " and stockID = '" + stockID + "';";
+		try{
+	      	ResultSet rs = JDBC.statement.executeQuery(sql);
+	      	if(rs.next()){
+	      		currentNumShares = rs.getInt("numshares");
+	      		boughtAt = rs.getDouble("boughtAt");
+	      		newAcct = false;
+	      	}
+	      	else{
+	      		currentNumShares = 0;
+	      		newAcct = true;
+	      	}
+	    }catch(SQLException e){e.printStackTrace();}
+	}
+
+	public static boolean stockExists(String sid){
+		String sql = "select * from Stock where stockID = '" + sid+ "';";
+		try{
+	      	ResultSet rs = JDBC.statement.executeQuery(sql);
+	      	if(rs.next()){
+	      		return true;
+	      	}
+	      	else{
+	      		return false;
+	      	}
+	    }catch(SQLException e){e.printStackTrace();}
+	    return false;
+	}
+
+	public static void buy(){
+		System.out.println("Enter the stock ID you'd like to purchase:");
+		String temp = UI.getInput();
+		double price;
+		int numshares;
+		if(!stockExists(temp)){
+			System.out.println("Invalid stockID!");
+		}
+		else{
+			stockID = temp;
+			price = Stocks.getStockPrice(stockID);
+			System.out.println(stockID + " is currently $" + price);
+			accountInfo();
+			System.out.println("How many would you like to purchase? You currently have " + currentNumShares + " shares.");
+			numshares = Integer.parseInt(UI.getInput());
+			double cost = numshares * price + 20;
+			if(MarketAccount.checkBrokeness(cost)){
+				buyHandler(numshares, cost);
+			}
+			else{
+				System.out.println("Insufficient funds.");
+			}
+		}
+	}
+
+	public static void buyHandler(int shares, double totalcost){
+		currentNumShares += shares;
+		if(newAcct){
+			boughtAt = Stocks.getStockPrice(stockID);
+			String sql = "insert into stockAccount(taxID,numshares,stockID,boughtAt) values (" + taxID + "," +currentNumShares+  ",'" + stockID + "'," + boughtAt+");";
+			try {
+		      	JDBC.statement.executeUpdate(sql);
+			} catch(SQLException e){e.printStackTrace();}
+		}
+		else{
+			String sql = "update stockAccount set numshares = " + currentNumShares + " where taxID = " + taxID+ " and stockID = '" + stockID + "';";
+			try {
+		      	JDBC.statement.executeUpdate(sql);
+			} catch(SQLException e){e.printStackTrace();}
+		}
+		MarketAccount.decreaseBalance(totalcost);
+		Transaction.buy(totalcost, shares, stockID);
+		System.out.println("Success! You pruchased " + shares + " shares of " + stockID + " for $" + totalcost);
+	}
+
+	public static void sell(){
 
 	}
 }

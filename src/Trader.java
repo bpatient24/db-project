@@ -101,25 +101,28 @@ public static void openAccount() {
 		System.out.println("Hello, " + name + ".");
  		System.out.println("Welcome back to the Stars R Us Trader Interface");
  		String input = "";
+ 		MarketAccount.getInfo(taxID);
+ 		StockAccount.getTID(taxID);
+ 		Transaction.getTID(taxID);
  		while(!input.equals("logout")){
  			System.out.println("\nWhat would you like to do? Type 'help' for options");
     		input = UI.getInput();
     		if(validTraderInputs.contains(input)){
     			switch(input){
     				case "deposit":
-    					MarketAccount.deposit(taxID);
+    				MarketAccount.deposit();
     				break;
 
     				case "withdraw":
-    					MarketAccount.withdraw(taxID);
+    				MarketAccount.withdraw();
     				break;
 
     				case "buy":
-    				
+    				StockAccount.buy();
     				break;
 
     				case "sell":
-    				
+    				StockAccount.sell();
     				break;
 
     				case "show balance":
@@ -127,7 +130,7 @@ public static void openAccount() {
     				break;
 
     				case "transactions":
-    				Transaction.printTransactions(taxID);
+    				Transaction.printTransactions();
     				break;
 
     				case "check stock":
@@ -230,26 +233,7 @@ public static void openAccount() {
 	}
 	
 	public static void showBalance() {
-		String sql = "SELECT MA.balance FROM marketAccount MA WHERE MA.taxID = '" + taxID + "';";
-		try{
-	      	ResultSet rs = JDBC.statement.executeQuery(sql);
-	      	if(rs.next()){
-	      		float balance = rs.getFloat("balance"); 
-	      		System.out.println("Your current balance is: " + balance);
-	      	}
-	    }catch(SQLException e){e.printStackTrace();}
+		System.out.println("$" + MarketAccount.currBalance);
 	}
-
-	public static void showTransactionHistory() {
-		//String sql = "";
-		//JDBC.connection.statement.executeQuery(sql);
-	}
-
-	public static void showStockInfo(String symbol) {
-		//String sql = "";
-		//JDBC.connection.statement.executeQuery(sql);
-	}
-
-
 
 }

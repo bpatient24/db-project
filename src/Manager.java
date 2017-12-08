@@ -221,6 +221,10 @@ public class Manager {
 	}
 
 	public static void deleteTransactions(){
-		
+		String sql = "delete from Transactions;";
+		try {
+	      	JDBC.statement.executeUpdate(sql);
+	      	System.out.println("Successfully deleted transactions.");
+		} catch(SQLException e){e.printStackTrace();}
 	}
 }
