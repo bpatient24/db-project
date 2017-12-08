@@ -4,48 +4,46 @@ import java.lang.*;
 
 public class Transaction {
 
-	public static void deposit(int tID) {
-		//add money to market account balance
-		System.out.println("How much money would you like to deposit?");
-		double money = Double.parseDouble(UI.getInput());
-		while (money <= 0.0) {
-			System.out.println("Invalid Deposit. Enter a dollar amount greater than 0.");
-			money = Double.parseDouble(UI.getInput());
-		}
-
-		String sql = "update marketAccount set balance = balance + " +money+ " WHERE taxID=" +tID+ ";";
+	public static void deposit(int taxID, double amount) {
+		String type = "deposit";
+		String date = Date.date;
+		//create transaction table entry for this deposit
+		String sql = "insert into Transactions(taxID,amount,type,date) values (" +taxID+ ", " +amount+ ", '" +type+ "', '" +date+ "');";
 		try {
 	      	JDBC.statement.executeUpdate(sql);
-	      	System.out.println("Success! Deposited $" + money + " into your account.");
-	    } catch(SQLException e){e.printStackTrace();}
+		} catch(SQLException e){e.printStackTrace();}
 	}
 
-	public static void withdraw(int tID){
-		//subtract money from market account balance
-		//check current balance so they don't overdraw
-		String sql = "select balance from marketAccount where taxID=" +tID+ ";";
-		double currBalance = 0.0;
+	public static void withdraw(int taxID, double amount){
+		String type = "withdrawal";
+		String date = Date.date;
+		//create transaction table for this deposit
+		String sql = "insert into Transactions(taxID,amount,type,date) values (" +taxID+ ", " +amount+ ", '" +type+ "', '" +date+ "');";
 		try {
-	      	ResultSet resultSet = JDBC.statement.executeQuery(sql);
-			if (resultSet.next()) { //should be 1 result from the query
-				currBalance = resultSet.getDouble("balance");
-			}
-	    } catch(SQLException e){System.out.println("Error: Could not obtain balance for trader withdrawl.*******");}
+	      	JDBC.statement.executeUpdate(sql);
+		} catch(SQLException e){e.printStackTrace();}
+	}
 
-		System.out.println("How much money would you like to withdraw?");
-		double money = Double.parseDouble(UI.getInput());
-		while ((money <= 0.0) || (money > currBalance)) {
-			System.out.println("Invalid Withdrawl. Enter a dollar amount greater than 0 and less than your balance ($" +currBalance+ ").");
-			money = Double.parseDouble(UI.getInput());
-		}
-
-		String sql2 = "update marketAccount set balance = balance - " +money+ " WHERE taxID=" +tID+ ";";
+	public static void printTransactions(int taxID){
+		System.out.println("Here is your transaction history:");
+		String sql = "select * from Transactions where taxID = " + taxID + ";";
 		try {
-	      	JDBC.statement.executeUpdate(sql2);
-	      	currBalance = currBalance - money;
-	      	System.out.println("Success! Withdrew $" + money + " from your account. Your balance is now $" + currBalance + ".");
-	    } catch(SQLException e){e.printStackTrace();}
-		
+	      	ResultSet rs = JDBC.statement.executeQuery(sql);
+	      	while(rs.next()){
+	      		int tid = rs.getInt("tid");
+	      		String type = rs.getString("type");
+	      		double amount = rs.getDouble("amount");
+	      		String date = rs.getString("date");
+	      		if(type.equals("withdrawal") || type.equals("deposit")){
+	      			System.out.println("tid:" + tid + " type=" + type + " amount:" + amount + " date:" + date + " taxID:" + taxID);
+	      		}
+	      		else{
+	      		String stockID = rs.getString("stockID");
+	      		int numShares = rs.getInt("numShares");
+	      		System.out.println("tid:" + tid + " type=" + type + " amount:" + amount + " date:" + date + " taxID:" + taxID + " stockID:" + stockID + " #Shares:" + numShares);
+	      		}
+	      	}
+		} catch(SQLException e){e.printStackTrace();}
 	}
 
 	public static void buy(){

@@ -107,11 +107,11 @@ public static void openAccount() {
     		if(validTraderInputs.contains(input)){
     			switch(input){
     				case "deposit":
-    					Transaction.deposit(taxID);
+    					MarketAccount.deposit(taxID);
     				break;
 
     				case "withdraw":
-    					Transaction.withdraw(taxID);
+    					MarketAccount.withdraw(taxID);
     				break;
 
     				case "buy":
@@ -127,7 +127,7 @@ public static void openAccount() {
     				break;
 
     				case "transactions":
-    				
+    				Transaction.printTransactions(taxID);
     				break;
 
     				case "check stock":
@@ -147,7 +147,7 @@ public static void openAccount() {
     				break;
 
     				case "logout":
-                    UI.begin();
+                    //UI.begin();
     				break;
 
     				case "help":

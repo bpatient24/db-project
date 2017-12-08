@@ -1,5 +1,4 @@
 import java.util.*;
-
 public class Main {
 	static UI ui; 
 	static JDBC db;
@@ -39,7 +38,8 @@ public class Main {
             UI.begin();
 
 	    	db.endSession();
-            System.out.println("closed connection");
+            mdb.endSession();
+            System.out.println("closed connections");
             System.exit(0);
     	}
     }

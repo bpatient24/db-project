@@ -11,7 +11,11 @@ public class Operator {
 	}
 
 	public static void setStockPrice(){
-
+		System.out.println("Enter the stockID:");
+		String stockID = UI.getInput();
+		System.out.println("What is the new price for " + stockID);
+		double newPrice = Double.parseDouble(UI.getInput());
+		Stocks.setStockPrice(stockID, newPrice);
 	}
 
 	public static void setDate(){

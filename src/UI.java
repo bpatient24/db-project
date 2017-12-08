@@ -20,9 +20,9 @@ public class UI{
  	public static void begin(){
  		System.out.println("Welcome to Stars R Us");
         Date.printDate();
- 		System.out.println("Are you a trader, manager or operator?");
     	String input ="";
     	while(!input.equals("quit")){
+            System.out.println("Are you a trader, manager or operator?");
     		input = getInput();
     		if(validUsers.contains(input)){
     			switch(input){
@@ -71,14 +71,16 @@ public class UI{
     			switch(input){
     				case "login":
     				Trader.login();
+                    input = "back";
     				break;
 
     				case "register":
     				Trader.openAccount();
+                    input = "back";
     				break;
 
     				case "back":
-                    begin();
+                    
     				break;
 
     				case "help":
@@ -97,7 +99,7 @@ public class UI{
         System.out.println("Welcome to Stars R Us Manager Interface");
         String input = "";
         while(!input.equals("back")){
-            System.out.println("\n What would you like to do? Type 'help' for options");
+            System.out.println("\nWhat would you like to do? Type 'help' for options");
             input = getInput();
             if(validManagerInputs.contains(input)){
                 switch(input){
@@ -126,7 +128,7 @@ public class UI{
                     break;
 
                     case "back":
-                    begin();
+                    
                     break;
 
                     case "help":
@@ -144,7 +146,7 @@ public class UI{
         System.out.println("Welcome to Stars R Us Operator Interface");
         String input = "";
         while(!input.equals("back")){
-            System.out.println("\n What would you like to do? Type 'help' for options");
+            System.out.println("\nWhat would you like to do? Type 'help' for options");
             input = getInput();
             if(validOperatorInputs.contains(input)){
                 switch(input){
@@ -157,7 +159,7 @@ public class UI{
                     break;
 
                     case "set stock price":
-                    //do this
+                    Operator.setStockPrice();
                     break;
 
                     case "set date":
@@ -165,7 +167,7 @@ public class UI{
                     break;
 
                     case "back":
-                    begin();
+                    
                     break;
 
                     case "help":

@@ -58,7 +58,6 @@ public class Movies{
 		}catch(SQLException e){e.printStackTrace();}
 	}
 
-	//DOESNT WORK
 	public static void showTopMovies() {
 		System.out.println("Enter time interval(1970-1980):");
 		String years = UI.getInput();
