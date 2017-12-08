@@ -34,7 +34,7 @@ public class Transaction {
 	      		String type = rs.getString("type");
 	      		double amount = rs.getDouble("amount");
 	      		String date = rs.getString("date");
-	      		if(type.equals("withdrawal") || type.equals("deposit")){
+	      		if(type.equals("withdrawal") || type.equals("deposit") || type.equals("accrue interest")){
 	      			System.out.println("tid:" + tid + " type=" + type + " amount:" + amount + " date:" + date + " taxID:" + taxID);
 	      		}
 	      		else{
