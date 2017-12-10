@@ -7,6 +7,7 @@ public class Manager {
 	public static String name;
 	public static String username;
 	public static String password;
+	int MONTHSTARTDAY = 18;
 
 	public static boolean login(){
 		getUser();
@@ -88,11 +89,6 @@ public class Manager {
 	    return valid;
 	}
 
-	public static void addInterest(){
-		//For all market accousernamets, add the appropriate amousernamet of monthly interest to the balance. 
-		//This is usually done at the end of a month.
-	}
-
 	public static void generateStatement() {
 		//Scanner scan = new Scanner(System.in);
 		System.out.println("==============================================================");
@@ -149,23 +145,87 @@ public class Manager {
 
 	public static void listActiveCustomers() {
 
-		String sql = String.format("SELECT * FROM Customer;");
-		
+		String sql = String.format("SELECT taxID,name FROM Customer;");
 		try { 
 			ResultSet resultSet = JDBC.statement.executeQuery(sql);
-		 
-
 			while (resultSet.next()) {
-				int col1 = resultSet.getInt("taxID");
-	   			String col2 = resultSet.getString("name");
-	    		System.out.println("Tax ID: " + col1 + "\t Name: " + col2);
+				int tid = resultSet.getInt("taxID");
+				String col2 = resultSet.getString("name");
+	   			//int shares = resultSet.getString("numshares");
+	   			if(calculateSharesTraded(tid) >= 1000){
+	   				System.out.println("Tax ID: " + tid + "\t Name: " + col2);
+	   			}
+	    		
+			}
+		} catch (SQLException e){e.printStackTrace();}
+	}
+
+	public static void printCustomerInfo(int taxID, double earnings){
+		String sql = String.format("SELECT * FROM Customer WHERE taxID = " + taxID+  ";");
+		try { 
+			ResultSet resultSet = JDBC.statement.executeQuery(sql);
+			while(resultSet.next()){
+	   			String name = resultSet.getString("name");
+	    		System.out.println("Tax ID: " + taxID + "\t Name: " + name + "\t Earnings:$" + earnings);
 			}
 		} catch (SQLException e){e.printStackTrace();}
 	}
 
 	public static void genereateDTER(){
-
+		String sql = "select * from Customer;";
+		System.out.println("The following customers made over $10000 this month: ");
+		try { 
+			ResultSet resultSet = JDBC.statement.executeQuery(sql);
+			while(resultSet.next()){
+				int taxID = resultSet.getInt("taxID");
+				String name = resultSet.getString("name");
+	   			double earnings = calculateEarnings(taxID);
+	   			//System.out.println("First" + name);
+	   			if(earnings > 10000){
+	   				System.out.println("Tax ID: " + taxID + "\t Name: " + name + "\t Earnings:$" + earnings);
+	   			}
+			}
+		}catch (SQLException e){e.printStackTrace();}
 	}
+
+	public static int calculateSharesTraded(int taxID){
+		String sql = "select * from Transactions where taxID = " + taxID+ " and ( (type = 'buy') or (type = 'sell'));";
+		int shares=0;
+
+		try {
+	      	ResultSet rs = JDBC.statement2.executeQuery(sql);
+	      	while(rs.next()){
+	      		shares += rs.getInt("numshares");
+	      	}
+		} catch(SQLException e){e.printStackTrace();}
+		//System.out.println(earned);
+		return shares;
+	}
+
+	public static double calculateEarnings(int taxID){
+		String sql = "select * from Transactions where taxID = " + taxID+ " and ( (type = 'buy') or (type = 'sell') or (type = 'interest'));";
+		double amount=0;
+		double earned=0;
+		//System.out.println("second" + taxID);
+		try {
+	      	ResultSet rs = JDBC.statement2.executeQuery(sql);
+	      	while(rs.next()){
+	      		amount = rs.getDouble("amount");
+	      		if(rs.getString("type") == "sell"){
+	      			earned -= amount;
+	      		}
+	      		else{
+	      			earned += amount;
+	      		}
+	      	}
+	      	/*if(rs.last()){
+	      		end = rs.getDouble("newbalance");
+	      	}*/
+		} catch(SQLException e){e.printStackTrace();}
+		//System.out.println(earned);
+		return earned;
+	}
+	
 	
 	public static void showCustomerReport() {
 		System.out.println("==================================================");
@@ -226,5 +286,68 @@ public class Manager {
 	      	JDBC.statement.executeUpdate(sql);
 	      	System.out.println("Successfully deleted transactions.");
 		} catch(SQLException e){e.printStackTrace();}
+	}
+
+	public static void addInterest(){
+		String sql = "select * from Transactions;";
+		try {
+	      	JDBC.statement.executeUpdate(sql);
+	      	System.out.println("Successfully deleted transactions.");
+		} catch(SQLException e){e.printStackTrace();}
+	}
+
+	public static double getDailyBalance(int tid){
+		String sql = "select * from Transactions where taxID = " + tid + ";";
+		ArrayList<Double> dailyBalance = new ArrayList<>();
+		ArrayList<String> dates = new ArrayList<>();
+		ArrayList<Integer> days = new ArrayList<>();
+		try {
+	      	ResultSet rs = JDBC.statement.executeQuery(sql);
+	      	if(rs.next()){
+	      		double temp1 = rs.getDouble("newbalance");
+	      		double temp2 = rs.getDouble("amount");
+	      		if(rs.getString("type").equals("sell")){
+	      			dailyBalance.add(temp1 - temp2);
+	      		}
+	      		else{
+	      			dailyBalance.add(temp1 + temp2);
+	      		}
+	      		if(rs.getString("date") != "3/18/2013"){
+	      			dates.add(rs.getString("date"));
+	      		}   		
+	      		System.out.println("daily balance 1:" + dailyBalance);
+	      	}
+	      	while(rs.next()){
+	      		dailyBalance.add(rs.getDouble("newbalance"));
+	      		dates.add(rs.getString("date"));
+	      	}
+		} catch(SQLException e){e.printStackTrace();}
+		System.out.println("daily balance end:" + dailyBalance);
+		System.out.println("dates:" + dates);
+
+		for(int i=1; i < dates.size(); i++){
+			String[] temp = dates.get(i-1).split("/");
+			String[] temp2 = dates.get(i).split("/");
+			int day = Integer.parseInt(temp[1]);
+			int day2 = Integer.parseInt(temp2[1]);
+			days.add(day2 - day);
+		}
+		System.out.println("days at balance:" + days);
+		//CALCULATE INTEREST
+		double average =dailyBalance.get(0);
+		System.out.println("average21:" + average);
+		double totaldays=0;
+		for (int i = 0; i < days.size(); i++){
+			totaldays += days.get(i);
+		}
+
+		for(int j=0; j< days.size(); j++){
+			double weight = days.get(j)/totaldays;
+			average += Math.abs(((average + dailyBalance.get(j+1))) * weight);
+			System.out.println("average:" + average);
+		}
+		average = average/dailyBalance.size();
+		System.out.println("daily average balance:" + average);
+		return average;
 	}
 }

@@ -116,7 +116,7 @@ public class UI{
                     break;
 
                     case "generate DTER":
-                    //do this
+                    Manager.genereateDTER();
                     break;
 
                     case "customer report":

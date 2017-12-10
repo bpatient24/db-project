@@ -46,7 +46,7 @@ insert into stockAccount(taxID,numshares,stockID,boughtAt) values (3306,200,'STC
 insert into stockAccount(taxID,numshares,stockID,boughtAt) values (3306,100,'SMD',71.00);
 insert into Actor(stockID,name,birthday) values ('SKB','Kim Basinger','8 December 1958');
 insert into Actor(stockID,name,birthday) values ('SMD','Michael Douglas','25 September 1944');
-insert into Actor(stockID,name,birthday) values ('STC','Tom Cruise','3 July 196');
+insert into Actor(stockID,name,birthday) values ('STC','Tom Cruise','3 July 1962');
 insert into Contract(title,totalvalue,year,role) values ('L.A. Confidential',5000000,1997,'Actor');
 insert into Contract(title,totalvalue,year,role) values ('A Perfect Murder',10000000,1998,'Actor');
 insert into Contract(title,totalvalue,year,role) values ('Jerry Maguire',5000000,1996,'Actor');

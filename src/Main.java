@@ -35,8 +35,9 @@ public class Main {
     	else{
 	    	ui = new UI();
 	    	Date.getDate();
-            UI.begin();
-
+	    	Manager.getDailyBalance(1022);
+            //UI.begin();
+	    	//Trader.login();
 	    	db.endSession();
             mdb.endSession();
             System.out.println("closed connections");

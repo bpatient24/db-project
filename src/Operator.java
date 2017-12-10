@@ -2,12 +2,14 @@ import java.util.*;
 import java.lang.*;
 import java.sql.*;
 public class Operator {
+	public static boolean open;
 	public static void openMarket(){
 		Date.nextDay();
+		open = true;
 	}
 
 	public static void closeMarket(){
-
+		open = false;
 	}
 
 	public static void setStockPrice(){

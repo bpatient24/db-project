@@ -134,7 +134,7 @@ public static void openAccount() {
     				break;
 
     				case "check stock":
-    				
+    				showStockInfo();
     				break;
 
     				case "movie info":
@@ -234,6 +234,23 @@ public static void openAccount() {
 	
 	public static void showBalance() {
 		System.out.println("$" + MarketAccount.currBalance);
+	}
+
+	public static void showStockInfo(){
+		System.out.println("Enter the stockID:");
+		String sid = UI.getInput();
+		double price = Stocks.getStockPrice(sid);
+		String name="";
+		String birthday="";
+		String sql = "select * from Actor where stockID = '" + sid +"';";
+			try{
+		      	ResultSet rs = JDBC.statement.executeQuery(sql);
+		      	if(rs.next()){
+		      		name = rs.getString("name");
+					birthday = rs.getString("birthday");
+		      	}
+		    }catch(SQLException e){e.printStackTrace();}
+		System.out.println("The price for " + sid + "is:$" + price + ". The actor associated to this stock is:" + name + " who was born on:" +birthday);
 	}
 
 }

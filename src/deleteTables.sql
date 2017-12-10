@@ -6,3 +6,4 @@ delete from Actor;
 delete from Stock;
 delete from marketAccount;
 delete from Customer;
+delete from Date;

@@ -13,7 +13,7 @@ public class Transaction {
 		String type = "deposit";
 		String date = Date.date;
 		//create transaction table entry for this deposit
-		String sql = "insert into Transactions(taxID,amount,type,date) values (" +taxID+ ", " +amount+ ", '" +type+ "', '" +date+ "');";
+		String sql = "insert into Transactions(taxID,amount,newbalance,type,date) values (" +taxID+ ", " +amount+ ", " + MarketAccount.currBalance + ", '" +type+ "', '" +date+ "');";
 		try {
 	      	JDBC.statement.executeUpdate(sql);
 		} catch(SQLException e){e.printStackTrace();}
@@ -23,7 +23,7 @@ public class Transaction {
 		String type = "withdrawal";
 		String date = Date.date;
 		//create transaction table for this deposit
-		String sql = "insert into Transactions(taxID,amount,type,date) values (" +taxID+ ", " +amount+ ", '" +type+ "', '" +date+ "');";
+		String sql = "insert into Transactions(taxID,amount,newbalance,type,date) values (" +taxID+ ", " +amount+ ", " + MarketAccount.currBalance + ", '" +type+ "', '" +date+ "');";
 		try {
 	      	JDBC.statement.executeUpdate(sql);
 		} catch(SQLException e){e.printStackTrace();}
@@ -45,7 +45,8 @@ public class Transaction {
 	      		else{
 	      		String stockID = rs.getString("stockID");
 	      		int numShares = rs.getInt("numShares");
-	      		System.out.println("tid:" + tid + " type=" + type + " amount:" + amount + " date:" + date + " taxID:" + taxID + " stockID:" + stockID + " #Shares:" + numShares);
+	      		double boughtAt = rs.getDouble("boughtAt");
+	      		System.out.println("tid:" + tid + " type=" + type + " amount:" + amount + " date:" + date + " taxID:" + taxID + " stockID:" + stockID + " #Shares:" + numShares + "Bought at:$" + boughtAt);
 	      		}
 	      	}
 		} catch(SQLException e){e.printStackTrace();}
@@ -54,7 +55,8 @@ public class Transaction {
 	public static void buy(double amount, int shares, String sid){
 		String type = "buy";
 		String date = Date.date;
-		String sql = "insert into Transactions(taxID,amount,numshares,newbalance,stockID,type,date) values (" +taxID+ ", " +amount+ ", " +shares+ ", " + MarketAccount.currBalance + ", '" + sid + "', '" +type+ "', '" +date+ "');";
+		double price = Stocks.getStockPrice(sid);
+		String sql = "insert into Transactions(taxID,amount,numshares,newbalance,stockID,type,date,boughtAt) values (" +taxID+ ", " +amount+ ", " +shares+ ", " + MarketAccount.currBalance + ", '" + sid + "', '" +type+ "', '" +date+ "', " +price + ");";
 		try {
 	      	JDBC.statement.executeUpdate(sql);
 		} catch(SQLException e){e.printStackTrace();}
@@ -70,6 +72,6 @@ public class Transaction {
 	}
 
 	public static void accrueInterest(String marketAct){
-		
+		String type = "interest";
 	}
 }
