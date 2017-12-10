@@ -2,8 +2,10 @@ import java.sql.*;
 public class JDBC {
 	public static Connection connection; 
 	public static Statement statement;
-	public static Connection connection2; 
+	//public static Connection connection2; 
 	public static Statement statement2;
+	//public static Connection connection3; 
+
 
 	public JDBC(){
 		initializeDriver();
@@ -21,7 +23,6 @@ public class JDBC {
 	public void initializeConnection(){
 		try{
 			connection = DriverManager.getConnection("jdbc:mysql://cs174a.engr.ucsb.edu:3306/bpatientDB", "bpatient", "439");
-			connection2 = DriverManager.getConnection("jdbc:mysql://cs174a.engr.ucsb.edu:3306/bpatientDB", "bpatient", "439");
 		}catch(SQLException e){e.printStackTrace();}
 	}
 
@@ -29,6 +30,7 @@ public class JDBC {
 		try{
 			statement = connection.createStatement();
 			statement2 = connection.createStatement();
+
 		}catch(SQLException e){e.printStackTrace();}
 	}
 
@@ -42,19 +44,6 @@ public class JDBC {
 		if (connection != null) {
 			try{
 				connection.close();
-			}catch(SQLException e){e.printStackTrace();}
-		}
-
-
-		if (statement2 != null) {
-			try{
-				statement2.close();
-			}catch(SQLException e){e.printStackTrace();}  
-		}
-
-		if (connection2 != null) {
-			try{
-				connection2.close();
 			}catch(SQLException e){e.printStackTrace();}
 		}
 	}

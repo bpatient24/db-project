@@ -289,10 +289,18 @@ public class Manager {
 	}
 
 	public static void addInterest(){
-		String sql = "select * from Transactions;";
+		String sql = "select * from marketAccount;";
+		double interestEarned =0;
 		try {
-	      	JDBC.statement.executeUpdate(sql);
-	      	System.out.println("Successfully deleted transactions.");
+	      	ResultSet rs2 = JDBC.statement.executeQuery(sql);
+	      	while(rs2.next()){
+	      		int tid = rs2.getInt("taxID");
+	      		interestEarned = getDailyBalance(tid) * .03;
+	      		System.out.println(interestEarned);
+	      		MarketAccount.taxID = tid;
+	      		MarketAccount.incrementBalance(interestEarned);
+	      		Transaction.accrueInterest(interestEarned, tid, MarketAccount.currBalance);
+	      	}
 		} catch(SQLException e){e.printStackTrace();}
 	}
 
@@ -302,7 +310,7 @@ public class Manager {
 		ArrayList<String> dates = new ArrayList<>();
 		ArrayList<Integer> days = new ArrayList<>();
 		try {
-	      	ResultSet rs = JDBC.statement.executeQuery(sql);
+	      	ResultSet rs = JDBC.statement2.executeQuery(sql);
 	      	if(rs.next()){
 	      		double temp1 = rs.getDouble("newbalance");
 	      		double temp2 = rs.getDouble("amount");
@@ -315,15 +323,20 @@ public class Manager {
 	      		if(rs.getString("date") != "3/18/2013"){
 	      			dates.add(rs.getString("date"));
 	      		}   		
-	      		System.out.println("daily balance 1:" + dailyBalance);
+	      		//System.out.println("daily balance 1:" + dailyBalance);
+	      	}
+	      	else{
+	      		MarketAccount.taxID = tid;
+	      		MarketAccount.getBalance();
+	      		return MarketAccount.currBalance;
 	      	}
 	      	while(rs.next()){
 	      		dailyBalance.add(rs.getDouble("newbalance"));
 	      		dates.add(rs.getString("date"));
 	      	}
 		} catch(SQLException e){e.printStackTrace();}
-		System.out.println("daily balance end:" + dailyBalance);
-		System.out.println("dates:" + dates);
+		//System.out.println("daily balance end:" + dailyBalance);
+		//System.out.println("dates:" + dates);
 
 		for(int i=1; i < dates.size(); i++){
 			String[] temp = dates.get(i-1).split("/");
@@ -332,10 +345,10 @@ public class Manager {
 			int day2 = Integer.parseInt(temp2[1]);
 			days.add(day2 - day);
 		}
-		System.out.println("days at balance:" + days);
+		//System.out.println("days at balance:" + days);
 		//CALCULATE INTEREST
-		double average =dailyBalance.get(0);
-		System.out.println("average21:" + average);
+		double average =0;
+		//System.out.println("average21:" + average);
 		double totaldays=0;
 		for (int i = 0; i < days.size(); i++){
 			totaldays += days.get(i);
@@ -343,11 +356,11 @@ public class Manager {
 
 		for(int j=0; j< days.size(); j++){
 			double weight = days.get(j)/totaldays;
-			average += Math.abs(((average + dailyBalance.get(j+1))) * weight);
+			average =average + dailyBalance.get(j) * weight;
 			System.out.println("average:" + average);
 		}
-		average = average/dailyBalance.size();
-		System.out.println("daily average balance:" + average);
+		average = average;
+		//System.out.println("daily average balance:" + average);
 		return average;
 	}
 }

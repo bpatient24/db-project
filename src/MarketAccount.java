@@ -11,13 +11,19 @@ public class MarketAccount{
 	}
 
 	public static void getBalance(){
+		
 		String sql = "SELECT balance FROM marketAccount WHERE taxID = '" + taxID + "';";
 		try{
-	      	ResultSet rs = JDBC.statement.executeQuery(sql);
+			Statement statement3 = JDBC.connection.createStatement();
+	      	ResultSet rs = statement3.executeQuery(sql);
 	      	if(rs.next()){
 	      		currBalance = rs.getFloat("balance"); 
 	      	}
+	      	if (statement3 != null) {
+				statement3.close();
+			}
 	    }catch(SQLException e){e.printStackTrace();}
+	    
 	}
 
 	public static void deposit(){
@@ -35,9 +41,14 @@ public class MarketAccount{
 
 	public static void incrementBalance(double amount){
 		currBalance += amount;
+		
 		String sql = "update marketAccount set balance = balance + " +amount+ " WHERE taxID=" +taxID+ ";";
 		try {
-	      	JDBC.statement.executeUpdate(sql);
+			Statement statement4 = JDBC.connection.createStatement();
+	      	statement4.executeUpdate(sql);
+	      	if (statement4 != null) {
+				statement4.close();
+			}
 	    } catch(SQLException e){e.printStackTrace();}
 	}
 

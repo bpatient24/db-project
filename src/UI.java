@@ -27,7 +27,13 @@ public class UI{
     		if(validUsers.contains(input)){
     			switch(input){
     				case "trader":
-    				accountCheck();
+                    System.out.println("FIRST OPEN:" + Operator.open);
+                    if(Operator.open == true){
+                        accountCheck();
+                    }
+                    else{
+                        System.out.println("Sorry where closed come back tomorrow!");
+                    }
     				break;
 
     				case "operator":
@@ -104,7 +110,7 @@ public class UI{
             if(validManagerInputs.contains(input)){
                 switch(input){
                     case "add interest":
-                    //add interest
+                    Manager.addInterest();
                     break;
 
                     case "generate monthly statement":
@@ -155,7 +161,7 @@ public class UI{
                     break;
 
                     case "close market":
-                    //do this
+                    Operator.closeMarket();
                     break;
 
                     case "set stock price":

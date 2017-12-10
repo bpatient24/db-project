@@ -35,8 +35,8 @@ public class Main {
     	else{
 	    	ui = new UI();
 	    	Date.getDate();
-	    	Manager.getDailyBalance(1022);
-            //UI.begin();
+	    	//Manager.getDailyBalance(1022);
+            UI.begin();
 	    	//Trader.login();
 	    	db.endSession();
             mdb.endSession();

@@ -71,7 +71,16 @@ public class Transaction {
 		} catch(SQLException e){e.printStackTrace();}
 	}
 
-	public static void accrueInterest(String marketAct){
+	public static void accrueInterest(double amount, int tid, double newbalance){
 		String type = "interest";
+		String date = Date.date;
+		String sql = "insert into Transactions(taxID,amount,newbalance,type,date) values (" +tid+ ", " +amount+ ", " + newbalance + ", '"  +type+ "', '" +date+ "');";
+		try {
+			Statement statement4 = JDBC.connection.createStatement();
+	      	statement4.executeUpdate(sql);
+	      	if (statement4 != null) {
+				statement4.close();
+			}
+		} catch(SQLException e){e.printStackTrace();}
 	}
 }

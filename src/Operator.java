@@ -2,7 +2,7 @@ import java.util.*;
 import java.lang.*;
 import java.sql.*;
 public class Operator {
-	public static boolean open;
+	public static boolean open =true;
 	public static void openMarket(){
 		Date.nextDay();
 		open = true;
@@ -10,6 +10,7 @@ public class Operator {
 
 	public static void closeMarket(){
 		open = false;
+		//System.out.println("sec OPEN:" + Operator.open);
 	}
 
 	public static void setStockPrice(){
