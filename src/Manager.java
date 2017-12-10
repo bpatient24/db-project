@@ -296,12 +296,13 @@ public class Manager {
 	      	while(rs2.next()){
 	      		int tid = rs2.getInt("taxID");
 	      		interestEarned = getDailyBalance(tid) * .03;
-	      		System.out.println(interestEarned);
+	      		System.out.println("Account:" + tid + " earned:$" + interestEarned);
 	      		MarketAccount.taxID = tid;
 	      		MarketAccount.incrementBalance(interestEarned);
 	      		Transaction.accrueInterest(interestEarned, tid, MarketAccount.currBalance);
 	      	}
 		} catch(SQLException e){e.printStackTrace();}
+		System.out.println("Successfully applied interest to all eligible accounts.");
 	}
 
 	public static double getDailyBalance(int tid){
@@ -357,7 +358,7 @@ public class Manager {
 		for(int j=0; j< days.size(); j++){
 			double weight = days.get(j)/totaldays;
 			average =average + dailyBalance.get(j) * weight;
-			System.out.println("average:" + average);
+			//System.out.println("average:" + average);
 		}
 		average = average;
 		//System.out.println("daily average balance:" + average);

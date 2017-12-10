@@ -85,8 +85,4 @@ public class MarketAccount{
 	    Transaction.withdraw(money);
 	    System.out.println("Success! Your new balance is:" + currBalance);
 	}
-
-	public void accrueInterest(String marketAct){
-		
-	}
 }

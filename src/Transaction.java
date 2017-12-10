@@ -45,8 +45,8 @@ public class Transaction {
 	      		else{
 	      		String stockID = rs.getString("stockID");
 	      		int numShares = rs.getInt("numShares");
-	      		double boughtAt = rs.getDouble("boughtAt");
-	      		System.out.println("tid:" + tid + " type=" + type + " amount:" + amount + " date:" + date + " taxID:" + taxID + " stockID:" + stockID + " #Shares:" + numShares + "Bought at:$" + boughtAt);
+	      		//double boughtAt = rs.getDouble("boughtAt");
+	      		System.out.println("tid:" + tid + " type=" + type + " amount:" + amount + " date:" + date + " taxID:" + taxID + " stockID:" + stockID + " #Shares:" + numShares);
 	      		}
 	      	}
 		} catch(SQLException e){e.printStackTrace();}

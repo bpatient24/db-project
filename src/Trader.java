@@ -48,7 +48,7 @@ public static void openAccount() {
 	      	JDBC.statement.executeUpdate(sql);
 	      	JDBC.statement.executeUpdate(sql2);
 	      	System.out.println("Success! Account Created with Initial Deposit.");
-	      	traderInterface();
+	      	//traderInterface();
 		} catch(SQLException e){e.printStackTrace();}
 
 	}
@@ -105,7 +105,8 @@ public static void openAccount() {
  		StockAccount.getTID(taxID);
  		Transaction.getTID(taxID);
  		while(!input.equals("logout")){
- 			System.out.println("\nWhat would you like to do? Type 'help' for options");
+ 			Date.printDate();
+ 			System.out.println("What would you like to do? Type 'help' for options");
     		input = UI.getInput();
     		if(validTraderInputs.contains(input)){
     			switch(input){

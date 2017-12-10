@@ -27,7 +27,7 @@ public class UI{
     		if(validUsers.contains(input)){
     			switch(input){
     				case "trader":
-                    System.out.println("FIRST OPEN:" + Operator.open);
+                    //System.out.println("FIRST OPEN:" + Operator.open);
                     if(Operator.open == true){
                         accountCheck();
                     }

@@ -47,7 +47,20 @@ public class Date{
 	}
 
 	public static void nextDay(){
-		day++;
+		if(day < 31){
+			day++;
+		}
+		else{
+			day = 1;
+			if(month < 12){
+				month++;
+			}
+			else{
+				month = 1;
+				year++;
+			}
+		}
+		
 		updateDateTable();
 	}
 

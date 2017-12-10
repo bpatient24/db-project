@@ -171,7 +171,7 @@ public class StockAccount{
 		else{
 			stockID = temp;
 			accountInfo();
-			System.out.println(currentNumShares);
+			//System.out.println(currentNumShares);
 			if (newAcct || currentNumShares == 0) {
 				System.out.println("Error cannot sell. You don't own any stocks in this account.");
 			} else {
